@@ -1,0 +1,8 @@
+#!/bin/sh
+Usage="Usage: saxon stylesheet input [arguments]"
+case $# in
+    2) ;;
+    *) echo $Usage 1>&2;
+       exit 1;;
+esac
+java -classpath ${SAXON_LIB:-$HOME/lib/saxon9he.jar} net.sf.saxon.Transform -xsl:$1 -s:$2

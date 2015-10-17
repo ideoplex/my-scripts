@@ -1,0 +1,23 @@
+#!/bin/sh
+#
+
+#!/bin/sh
+STAGING=${S3_STAGING:-/Projects/sites/ideoplex/ideoplex.com}
+BUCKET=${S3_BUCKET:-s3://ideoplex.com}
+# 1 hour
+s3cmd sync --no-preserve --cf-invalidate --add-header="Cache-Control: public, max-age=3600" \
+    $STAGING/index.html s3://$BUCKET/index.html
+s3cmd sync --no-preserve --cf-invalidate --add-header="Cache-Control: public, max-age=3600" \
+    $STAGING/atom.xml $BUCKET/atom.xml
+s3cmd sync --no-preserve --cf-invalidate --add-header="Cache-Control: public, max-age=3600" \
+    $STAGING/categories/ $BUCKET/categories/
+# 1 day
+s3cmd sync --no-preserve --cf-invalidate --add-header="Cache-Control: public, max-age=86400" \
+    $STAGING/tags/ $BUCKET/tags/
+s3cmd sync --no-preserve --cf-invalidate --add-header="Cache-Control: public, max-age=86400" \
+    $STAGING/archives/ $BUCKET/archives/
+s3cmd sync --no-preserve --cf-invalidate --add-header="Cache-Control: public, max-age=86400" \
+    $STAGING/page/ $BUCKET/page/
+# 30 days
+s3cmd sync --no-preserve --cf-invalidate --add-header="Cache-Control: public, max-age=2592000" \
+    $STAGING/ $BUCKET/

@@ -19,5 +19,4 @@ s3cmd modify --add-header="Cache-Control: public, max-age=3600" --recursive \
 # 1 day
 s3cmd modify --add-header="Cache-Control: public, max-age=86400" \
       $BUCKET/sitemap.xml $BUCKET/archives/index.html $BUCKET/archives/$MONTH/index.html $BUCKET/archives/$YEAR/index.html
-s3cmd modify --add-header="Cache-Control: public, max-age=86400" --recursive \
-      $BUCKET/page/ $BUCKET/tags/
+s3cmd modify --add-header="Cache-Control: public, max-age=86400" --recursive $BUCKET/tags/

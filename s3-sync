@@ -2,9 +2,27 @@
 STAGING=${S3_STAGING:-/Projects/sites/ideoplex/ideoplex.com}
 BUCKET=${S3_BUCKET:-s3://ideoplex.com}
 #
+SYNC=no
+UPDATE=no
+
+case $# in
+0) SYNC=yes
+   UPDATE=yes;;
+1) case $1 in
+   sy*) SYNC=yes;;
+   up*) UPDATE=yes;;
+   esac;;
+esac
+#
 # sync with a default max-age of 30 days
-s3cmd sync --no-preserve --cf-invalidate --add-header="Cache-Control: public, max-age=2592000" \
-      $STAGING/ $BUCKET/
+case $SYNC in
+yes) s3cmd sync --no-preserve --cf-invalidate --add-header="Cache-Control: public, max-age=2592000" $STAGING/ $BUCKET/ ;;
+esac
+#
+# early exit?
+case $UPDATE in
+no )   exit 0;;
+esac
 #
 YEAR=$(date +%Y)
 MONTH=$(date +%Y/%m)
